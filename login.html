@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <link rel="icon" href="passithm-logo.png" type="image/png" />
+    <title>Passithm</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: 'Jost', sans-serif;
+        background: linear-gradient(to bottom, #333333, #555555);
+      }
+
+      .main {
+        width: 350px;
+        height: 500px;
+        background: #333333;
+        overflow: hidden;
+        background: linear-gradient(to bottom, #333333, #555555);
+        border-radius: 10px;
+        box-shadow: 5px 20px 50px #000;
+      }
+
+      #chk {
+        display: none;
+      }
+
+      .signup {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      label {
+        color: #fff;
+        font-size: 2.3em;
+        justify-content: center;
+        display: flex;
+        margin: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.5s ease-in-out;
+      }
+
+      input {
+        width: 60%;
+        height: 10px;
+        background: #e0e0e0;
+        justify-content: center;
+        display: flex;
+        margin: 20px auto;
+        padding: 12px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        background-color: #ccc;
+      }
+
+      button {
+        width: 60%;
+        height: 40px;
+        margin: 10px auto;
+        justify-content: center;
+        display: block;
+        color: #fff;
+        background: #555555;
+        font-size: 1em;
+        font-weight: bold;
+        margin-top: 30px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        transition: 0.2s ease-in;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #444444;
+      }
+
+      .login {
+        height: 460px;
+        background: #e0e0e0;
+        border-radius: 60% / 10%;
+        transform: translateY(-180px);
+        transition: 0.8s ease-in-out;
+      }
+
+      .login label {
+        color: #333333;
+        transform: scale(0.6);
+      }
+
+      #chk:checked ~ .login {
+        transform: translateY(-500px);
+      }
+
+      #chk:checked ~ .login label {
+        transform: scale(1);
+      }
+
+      #chk:checked ~ .signup label {
+        transform: scale(0.6);
+      }
+
+      .logout-btn {
+        display: none;
+        width: 60%;
+        height: 40px;
+        margin: 10px auto;
+        justify-content: center;
+        display: block;
+        color: #fff;
+        background: #555555;
+        font-size: 1em;
+        font-weight: bold;
+        margin-top: 30px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        transition: 0.2s ease-in;
+        cursor: pointer;
+      }
+
+      .logout-btn img {
+        width: 20px;
+        margin-right: 10px;
+      }
+            
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <input type="checkbox" id="chk" aria-hidden="true">
+      <div class="signup">
+        <form id="signup-form">
+          <label for="chk" aria-hidden="true">Sign up</label>
+          <input type="text" id="username" placeholder="User name" required>
+          <input type="email" id="email-signup" placeholder="Email" required>
+          <input type="password" id="password-signup" placeholder="Password" required>
+          <button type="submit">Sign up</button>
+        </form>
+      </div>
+
+      <div class="login">
+        <form id="login-form">
+          <label for="chk" aria-hidden="true">Login</label>
+          <input type="email" id="email-login" placeholder="Email" required />
+          <input type="password" id="password-login" placeholder="Password" required />
+          <button type="submit">Login</button>
+          <p style="text-align:center; margin-top:10px;">
+              <a  id="forgot-password-link" style="color:#333; font-size:0.7em; text-decoration:underline;">For security, your password cannot be reaset. keept it safe.</a>
+            </p>
+            
+          </p>
+          </form>
+                
+            
+
+    <p id="reset-status" class="reset-status" aria-live="polite"></p>
+  </div>
+</div>
+
+      </div>
+        
+        <script>
+
+            // Email format validation
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+// Signup handler
+document.getElementById("signup-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email-signup").value.trim();
+  const password = document.getElementById("password-signup").value;
+
+  if (!validateEmail(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("isLoggedIn", "true");
+      alert(data.message);
+      window.location.href = "passithm.html";
+    } else {
+      alert(data.message || "Signup failed.");
+    }
+  } catch (error) {
+    console.error("Signup error:", error);
+    alert("An error occurred during signup. Please try again later.");
+  }
+});
+
+// Login handler
+document.getElementById("login-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email-login").value.trim();
+  const password = document.getElementById("password-login").value;
+
+  if (!validateEmail(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("currentUserEmail", email); // 🔒 Save email of logged-in user
+      alert(data.message);
+      window.location.href = "index.html";
+    } else {
+      alert(data.message || "Login failed. Check your credentials.");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("An error occurred during login. Please try again later.");
+  }
+});
+
+
+
+
+        </script>
+  
+
+    
+  </body>
+</html>

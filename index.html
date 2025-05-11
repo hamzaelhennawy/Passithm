@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passithm</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="passithm-logo.png" type="image/png" />
+</head>
+<body>
+  <!-- Top-right buttons -->
+  <button id="about-btn" class="top-right-btn">
+    <img src="info.png" alt="Info" class="icon" />
+  </button>
+  
+  
+  <button id="login-btn" class="top-right-login-btn hidden">
+    <img src="login.png" alt="Login" class="icon" />
+  </button>
+
+  <button id="logout-btn" class="top-right-logout-btn hidden">
+    <img src="enter.png" alt="Logout" class="icon" />
+  </button>
+
+  
+  <button id="saved-btn" class="top-right-history-btn hidden">
+    <img src="bookmark.png" alt="Saved" class="icon" />
+  </button>
+  
+  
+  <!-- About modal -->
+  <div id="about-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>About Passithm</h2>
+      <p>
+        <strong>Passithm</strong> is a state-of-the-art password generation platform engineered to deliver secure, efficient, and user-centric password creation. Designed for both individuals and professionals, Passithm eliminates complexity by enabling the generation of strong, customizable passwords directly within the browser—no installation or technical expertise required.
+      </p>
+
+      <h3>Core Features</h3>
+      <ul>
+        <li><strong>Advanced Password Customization:</strong></li>
+        <li>Adjustable password length ranging from 12 to 100 characters</li>
+        <li>Selective inclusion of uppercase letters, lowercase letters, numbers, and special characters</li>
+        <li>Support for custom keywords to personalize password structures</li>
+        <li><strong>Real-Time Security Analysis:</strong> Integrated with the zxcvbn algorithm to evaluate password strength dynamically and ensure optimal security</li>
+        <li><strong>Efficient Utility Tools:</strong> Instant options to copy passwords, download them as text files, or export them as PDFs</li>
+        <li><strong>Secure Local Storage:</strong> Enables authenticated users to save generated passwords under custom labels for future use</li>
+        <li><strong>History and Data Management:</strong> Provides the ability to review, manage, and securely delete stored passwords from local storage</li>
+        <li><strong>Private, Local Authentication:</strong> Features a fully local login system using email and password credentials, with no external servers or data transmission involved</li>
+      </ul>
+
+      <p>
+        <strong>Passithm</strong> exemplifies a modern approach to password security—combining sophistication, usability, and privacy into a streamlined browser-based solution.
+      </p>
+      <p>
+        © 2025 Passithm. All rights reserved.
+      </p> 
+      </p>
+    </div>
+  </div>
+  
+  <div id="saved-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-saved-modal">&times;</span>
+      <h2>Saved Passwords</h2>
+      <ul id="saved-passwords-list"></ul>
+    </div>
+  </div>
+
+        <header>
+          <img src="passithm-logo-transparent.png" alt="Passithm Logo" class="logo">
+        </header>
+  
+  
+
+  
+  <main>
+    <div class="generator-box">
+      <div class="center-container"></div>
+      <label for="length">Password Length: <span id="length-value">20</span></label>
+      <input type="range" id="length" min="12" max="100" value="20" />
+
+      <div class="options">
+        <label><input type="checkbox" id="uppercase" checked /> Include Uppercase</label>
+        <label><input type="checkbox" id="lowercase" checked /> Include Lowercase</label>
+        <label><input type="checkbox" id="numbers" checked /> Include Numbers</label>
+        <label><input type="checkbox" id="special" checked /> Include Special Characters</label>
+        <label>
+          Include Custom Word:
+          <input type="text" id="custom-word" placeholder="e.g., passithm" />
+        </label>
+      </div>
+
+      <textarea id="password-output" readonly placeholder="Generated password..."></textarea>
+      <div id="strength-meter">
+        <div id="strength-bar"></div>
+      </div>
+      <small id="strength-text"></small>
+      
+      <div class="buttons">
+        <button id="generate-btn">Generate</button>
+        <button id="copy-btn">Copy</button>
+        <button id="download-btn">Download TXT</button>
+        <button id="download-pdf-btn">Download PDF</button>
+        <button id="save-btn" class="hidden">Save</button>
+      </div>
+      
+      <div id="name-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-name-modal">&times;</span>
+          <h3>Save Password</h3>
+          <input type="text" id="password-name-input" placeholder="Enter a name" />
+          <button id="confirm-save-btn">Save</button>
+        </div>
+      </div>
+      
+
+    </div>
+  </main>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/zxcvbn@4.4.2/dist/zxcvbn.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+
+  
+</body>
+</html>
